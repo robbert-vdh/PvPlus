@@ -1,0 +1,25 @@
+name: PvPlus
+author: coolblinger
+version: 0.1-DEV
+main: me.coolblinger.pvplus.PvPlus
+commands:
+   pvplus:
+      description: Main command for PvPlus.
+      aliases: pvp
+   groups:
+      description: Manage and join groups.
+      aliases: [pvpgroups, pgroups]
+permissions:
+   pvplus.*:
+      description: Gives access to all of PvPlus
+   pvplus.groups.*:
+      description: Gives access to all groups commands
+      children:
+         pvplus.groups.join: true
+         pvplus.groups.manage: true
+   pvplus.groups.join:
+      description: Allows you to join groups.
+      default: true
+   pvplus.groups.manage:
+      description: Allows you to manage groups.
+      default: op
