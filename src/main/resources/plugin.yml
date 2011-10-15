@@ -9,17 +9,30 @@ commands:
    groups:
       description: Manage and join groups.
       aliases: [pvpgroups, pgroups]
+   outposts:
+      description: Manage and join groups.
+      aliases: [pvpoutposts, poutposts, outpost, pvpoutpost, poutpost]
 permissions:
    pvplus.*:
       description: Gives access to all of PvPlus
+      children:
+        pvplus.groups.*: true
+        pvplus.outposts.*: true
    pvplus.groups.*:
-      description: Gives access to all groups commands
+      description: Gives access to all group commands
       children:
          pvplus.groups.join: true
          pvplus.groups.manage: true
+   pvplus.outposts.*:
+      description: Gives access to all outpost commands
+      children:
+         pvplus.outposts.manage: true
    pvplus.groups.join:
       description: Allows you to join groups.
       default: true
    pvplus.groups.manage:
+      description: Allows you to manage groups.
+      default: op
+   pvplus.outposts.manage:
       description: Allows you to manage groups.
       default: op

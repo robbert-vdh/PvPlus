@@ -16,5 +16,8 @@ public class PvPlusCommand extends BaseCommand {
 		if (sender.hasPermission("pvplus.groups.join")) {
 			sender.sendMessage(ChatColor.GOLD + "/groups" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Manage and join groups");
 		}
+		if (sender.hasPermission("pvplus.outposts.manage")) {
+			sender.sendMessage(ChatColor.GOLD + "/outposts" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Manage and outposts");
+		}
 	}
 }

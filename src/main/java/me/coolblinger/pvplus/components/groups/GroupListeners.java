@@ -23,9 +23,13 @@ public class GroupListeners {
 				Player damaged = (Player) edbe.getEntity();
 				if (edbe.getDamager() instanceof Player) {
 					Player damager = (Player) edbe.getDamager();
-					if (PvPlus.gm.getGroup(damaged.getName()).equals(PvPlus.gm.getGroup(damager.getName()))) {
-						damager.sendMessage(ChatColor.RED + "You can't hurt people in your own group.");
-						return false;
+					String damagedGroup = PvPlus.gm.getGroup(damaged.getName());
+					String damagerGroup = PvPlus.gm.getGroup(damager.getName());
+					if (damagedGroup != null && damagerGroup != null) {
+						if (damagedGroup.equals(damagerGroup)) {
+							damager.sendMessage(ChatColor.RED + "You can't hurt people in your own group.");
+							return false;
+						}
 					}
 				} else if (edbe.getDamager() instanceof Arrow) {
 					if (((Arrow) edbe.getDamager()).getShooter() instanceof Player) {

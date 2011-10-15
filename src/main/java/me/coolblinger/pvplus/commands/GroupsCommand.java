@@ -29,6 +29,8 @@ public class GroupsCommand extends BaseCommand {
 			remove(player, args);
 		} else if (args[0].equalsIgnoreCase("setowner")) {
 			setOwner(player, args);
+		} else {
+			printCommands(player);
 		}
 	}
 

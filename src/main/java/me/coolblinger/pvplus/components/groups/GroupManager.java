@@ -1,10 +1,13 @@
 package me.coolblinger.pvplus.components.groups;
 
-import org.bukkit.util.config.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
 public class GroupManager {
 	private HashMap<String, Group> groups = new HashMap<String, Group>();
@@ -87,14 +90,13 @@ public class GroupManager {
 			return;
 		}
 		groups = new HashMap<String, Group>();
-		Configuration config = new Configuration(file);
-		config.load();
-		List<String> keys = config.getKeys();
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+		Set<String> keys = config.getKeys(false);
 		for (String key : keys) {
-			if (config.getProperty(key + ".players") != null && config.getProperty(key + ".owner") != null) {
+			if (config.get(key + ".players") != null && config.get(key + ".owner") != null) {
 				groups.put(key, new Group());
 				groups.get(key).name = key;
-				groups.get(key).players = config.getStringList(key + ".players", new ArrayList<String>());
+				groups.get(key).players = config.getList(key + ".players", new ArrayList<String>());
 				groups.get(key).owner = config.getString(key + ".owner");
 			}
 		}
@@ -108,12 +110,16 @@ public class GroupManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Configuration config = new Configuration(file);
+		YamlConfiguration config = new YamlConfiguration();
 		Set<String> keys = groups.keySet();
 		for (String key : keys) {
-			config.setProperty(key + ".players", groups.get(key).players);
-			config.setProperty(key + ".owner", groups.get(key).owner);
+			config.set(key + ".players", groups.get(key).players);
+			config.set(key + ".owner", groups.get(key).owner);
 		}
-		config.save();
+		try {
+			config.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
