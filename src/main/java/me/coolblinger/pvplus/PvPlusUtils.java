@@ -41,7 +41,7 @@ public class PvPlusUtils {
 
 	public static String getOutpost(Vector loc) {
 		List<Outpost> outposts = new ArrayList<Outpost>(PvPlus.om.outposts.values());
-		for (Outpost outpost:outposts) {
+		for (Outpost outpost : outposts) {
 			if (clamp(loc.getX(), outpost.x1, outpost.x2) == loc.getX() && clamp(loc.getZ(), outpost.z1, outpost.z2) == loc.getZ()) {
 				return outpost.name;
 			}
