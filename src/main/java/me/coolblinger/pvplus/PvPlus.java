@@ -5,6 +5,7 @@ import me.coolblinger.pvplus.commands.OutpostsCommand;
 import me.coolblinger.pvplus.commands.PvPlusCommand;
 import me.coolblinger.pvplus.components.groups.GroupManager;
 import me.coolblinger.pvplus.components.outposts.OutpostManager;
+import me.coolblinger.pvplus.listeners.PvPlusBlockListener;
 import me.coolblinger.pvplus.listeners.PvPlusEntityListener;
 import me.coolblinger.pvplus.listeners.PvPlusPlayerListener;
 import org.bukkit.event.Event;
@@ -39,6 +40,8 @@ public class PvPlus extends JavaPlugin {
 		getCommand("pvplus").setExecutor(new PvPlusCommand());
 		getCommand("groups").setExecutor(new GroupsCommand());
 		getCommand("outposts").setExecutor(new OutpostsCommand());
+		pm.registerEvent(Event.Type.BLOCK_BREAK, new PvPlusBlockListener(), Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.BLOCK_PLACE, new PvPlusBlockListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PvPlusPlayerListener(), Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);

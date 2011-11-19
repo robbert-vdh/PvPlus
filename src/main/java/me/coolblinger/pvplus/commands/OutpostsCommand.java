@@ -57,7 +57,7 @@ public class OutpostsCommand extends BaseCommand {
 						player.sendMessage(ChatColor.RED + "Somebody's already setting bounds for this outpost.");
 						break;
 					case 3:
-						player.sendMessage(ChatColor.GREEN + "You're now setting '" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "''s bounds.");
+						player.sendMessage(ChatColor.GREEN + "You're now setting " + ChatColor.GOLD + args[1] + ChatColor.GREEN + "'s bounds.");
 						player.sendMessage(ChatColor.GREEN + "Left click to set the first corner, and right click to set the second.");
 						player.sendMessage(ChatColor.GREEN + "Write " + ChatColor.GOLD + "/outposts set" + ChatColor.GREEN + " again to cancel.");
 						break;

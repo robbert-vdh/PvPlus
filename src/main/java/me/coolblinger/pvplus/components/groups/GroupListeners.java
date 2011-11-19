@@ -16,7 +16,7 @@ public class GroupListeners {
 		}
 	}
 
-	public static boolean onEntityDamage(EntityDamageEvent event) {
+	public static void onEntityDamage(EntityDamageEvent event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent edbe = (EntityDamageByEntityEvent) event;
 			if (edbe.getEntity() instanceof Player) {
@@ -28,7 +28,7 @@ public class GroupListeners {
 					if (damagedGroup != null && damagerGroup != null) {
 						if (damagedGroup.equals(damagerGroup)) {
 							damager.sendMessage(ChatColor.RED + "You can't hurt people in your own group.");
-							return false;
+							event.setCancelled(true);
 						}
 					}
 				} else if (edbe.getDamager() instanceof Arrow) {
@@ -36,12 +36,11 @@ public class GroupListeners {
 						Player damager = (Player) ((Arrow) edbe.getDamager()).getShooter();
 						if (PvPlus.gm.getGroup(damaged.getName()).equals(PvPlus.gm.getGroup(damager.getName()))) {
 							damager.sendMessage(ChatColor.RED + "You can't hurt people in your own group.");
-							return false;
+							event.setCancelled(true);
 						}
 					}
 				}
 			}
 		}
-		return true;
 	}
 }

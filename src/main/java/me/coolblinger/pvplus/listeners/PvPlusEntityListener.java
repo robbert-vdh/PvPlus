@@ -6,8 +6,6 @@ import org.bukkit.event.entity.EntityListener;
 
 public class PvPlusEntityListener extends EntityListener {
 	public void onEntityDamage(EntityDamageEvent event) {
-		if (!GroupListeners.onEntityDamage(event)) {
-			event.setCancelled(true);
-		}
+		GroupListeners.onEntityDamage(event);
 	}
 }

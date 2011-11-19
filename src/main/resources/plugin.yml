@@ -34,5 +34,5 @@ permissions:
       description: Allows you to manage groups.
       default: op
    pvplus.outposts.manage:
-      description: Allows you to manage groups.
+      description: Allows you to manage and modify outposts.
       default: op
