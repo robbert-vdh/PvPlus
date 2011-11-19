@@ -16,10 +16,23 @@ public class OutpostManager {
 		load();
 	}
 
+	public Set<String> list() {
+		return outposts.keySet();
+	}
+
 	public boolean createOutpost(String name) {
 		if (!outposts.containsKey(name)) {
 			outposts.put(name, new Outpost());
 			outposts.get(name).name = name;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean removeOutpost(String name) {
+		if (outposts.containsKey(name)) {
+			outposts.remove(name);
 			return true;
 		} else {
 			return false;

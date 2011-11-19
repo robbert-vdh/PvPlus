@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 public class OutpostsCommand extends BaseCommand {
 	String getPermission() {
 		return "pvplus.outposts.manage";
@@ -19,6 +21,10 @@ public class OutpostsCommand extends BaseCommand {
 			create(player, args);
 		} else if (args[0].equalsIgnoreCase("set")) {
 			set(player, args);
+		} else if (args[0].equalsIgnoreCase("remove")) {
+			remove(player, args);
+		} else if (args[0].equalsIgnoreCase("list")) {
+			list(player);
 		} else {
 			printCommands(player);
 		}
@@ -68,6 +74,26 @@ public class OutpostsCommand extends BaseCommand {
 		} else {
 			PvPlus.om.toggleDefining("herpderp", player);
 			player.sendMessage(ChatColor.GREEN + "Setting bounds has been canceled!");
+		}
+	}
+
+	private void remove(Player player, String[] args) {
+		if (args.length >= 2) {
+			if (PvPlus.om.removeOutpost(args[1])) {
+				player.sendMessage(ChatColor.GREEN + "Outpost '" + ChatColor.WHITE + args[1] + ChatColor.GREEN + "' has been removed successfully!");
+			} else {
+				player.sendMessage(ChatColor.RED + "There is no outpost with the specified name.");
+			}
+		} else {
+			player.sendMessage(ChatColor.RED + "You have to specify the name of the outpost you want to remove.");
+		}
+	}
+
+	private void list(Player player) {
+		Set<String> outposts = PvPlus.om.list();
+		player.sendMessage(ChatColor.DARK_GREEN + "====PvPlus====");
+		for (String outpost : outposts) {
+			player.sendMessage("- " + ChatColor.AQUA + outpost);
 		}
 	}
 }
