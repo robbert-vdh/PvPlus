@@ -1,5 +1,7 @@
 package me.coolblinger.pvplus.components.outposts;
 
+import me.coolblinger.pvplus.components.outposts.doors.OutpostDoor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -7,9 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OutpostManager {
 	public HashMap<String, Outpost> outposts = new HashMap<String, Outpost>();
+	public ConcurrentHashMap<Location, OutpostDoor> doors = new ConcurrentHashMap<Location, OutpostDoor>();
 	private HashMap<String, Player> defining = new HashMap<String, Player>();
 
 	public OutpostManager() {
@@ -18,6 +22,15 @@ public class OutpostManager {
 
 	public Set<String> list() {
 		return outposts.keySet();
+	}
+
+	public boolean setOwner(String name, String owner) {
+		if (outposts.containsKey(name)) {
+			outposts.get(name).owner = owner;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean createOutpost(String name) {
@@ -75,6 +88,18 @@ public class OutpostManager {
 		}
 	}
 
+	public synchronized void runDoors() {
+		for (OutpostDoor door : doors.values()) {
+			door.run();
+		}
+	}
+
+	public synchronized void removeDoors() {
+		for (OutpostDoor door : doors.values()) {
+			door.remove();
+		}
+	}
+
 	public synchronized void load() {
 		File file = new File("plugins" + File.separator + "PvPlus" + File.separator + "outposts.yml");
 		if (!file.exists()) {
@@ -86,7 +111,7 @@ public class OutpostManager {
 		for (String key : keys) {
 			outposts.put(key, new Outpost());
 			outposts.get(key).name = key;
-			outposts.get(key).ownedBy = config.getString(key + ".ownedBy");
+			outposts.get(key).owner = config.getString(key + ".owner");
 			outposts.get(key).x1 = config.getDouble(key + ".x1", 0);
 			outposts.get(key).z1 = config.getDouble(key + ".z1", 0);
 			outposts.get(key).x2 = config.getDouble(key + ".x2", 0);
@@ -105,7 +130,7 @@ public class OutpostManager {
 		YamlConfiguration config = new YamlConfiguration();
 		Set<String> keys = outposts.keySet();
 		for (String key : keys) {
-			config.set(key + ".ownedBy", outposts.get(key).ownedBy);
+			config.set(key + ".owner", outposts.get(key).owner);
 			config.set(key + ".x1", outposts.get(key).x1);
 			config.set(key + ".z1", outposts.get(key).z1);
 			config.set(key + ".x2", outposts.get(key).x2);

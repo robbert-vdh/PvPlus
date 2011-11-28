@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Handler;
 
 public class PvPlus extends JavaPlugin {
+	private int taskId;
 	public static GroupManager gm = new GroupManager();
 	public static OutpostManager om = new OutpostManager();
 
@@ -23,6 +24,8 @@ public class PvPlus extends JavaPlugin {
 	private Handler handler = new PvPlusHandler();
 
 	public void onDisable() {
+		om.removeDoors();
+		getServer().getScheduler().cancelTask(taskId);
 		gm.save();
 		om.save();
 		PvPlusUtils.log.info("PvPlus has been disabled!");
@@ -37,6 +40,11 @@ public class PvPlus extends JavaPlugin {
 
 		PluginDescriptionFile pdf = getDescription();
 		PluginManager pm = getServer().getPluginManager();
+		if (!pm.isPluginEnabled("Spout")) {
+			PvPlusUtils.log.severe("Spout could not be found, PvPlus will disable itself.");
+			setEnabled(false);
+			return;
+		}
 		getCommand("pvplus").setExecutor(new PvPlusCommand());
 		getCommand("groups").setExecutor(new GroupsCommand());
 		getCommand("outposts").setExecutor(new OutpostsCommand());
@@ -45,6 +53,11 @@ public class PvPlus extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PvPlusPlayerListener(), Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);
+		taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+			public void run() {
+				om.runDoors();
+			}
+		}, 0, 10); //TODO: Change back to 60
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");
 	}
 }

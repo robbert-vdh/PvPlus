@@ -2,16 +2,44 @@ package me.coolblinger.pvplus.components.outposts;
 
 import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;
+import me.coolblinger.pvplus.components.outposts.doors.OutpostDoor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.getspout.spoutapi.block.SpoutBlock;
 
 public class OutpostListeners {
 	public static void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+
+		//TODO: Debug
+		SpoutBlock aBlock = (SpoutBlock) event.getClickedBlock();
+		aBlock.setBlockPowered(true);
+		Bukkit.broadcastMessage(String.valueOf(aBlock.isBlockPowered()));
+		Bukkit.broadcastMessage(String.valueOf(aBlock.getBlockPower()));
+
+
+		//Signs
+		//TODO: Separate check for fire breaking.
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			Block block = event.getClickedBlock();
+			if (block.getType() == Material.WALL_SIGN) {
+				Sign sign = (Sign) block.getState();
+				if (sign.getLine(0).equalsIgnoreCase("[PvPlus Door]")) {
+					if (!PvPlus.om.doors.containsKey(block.getLocation())) {
+						PvPlus.om.doors.put(block.getLocation(), new OutpostDoor(block, player));
+					}
+				}
+			}
+		}
+		//Defining
 		String outpost = PvPlus.om.getDefining(player);
 		if (outpost != null) {
 			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
