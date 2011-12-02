@@ -57,7 +57,7 @@ public class GroupsCommand extends BaseCommand {
 					player.sendMessage(ChatColor.RED + "The specified group does not exist.");
 					break;
 				case 2:
-					player.sendMessage(ChatColor.GREEN + "You've successfully joined group '" + ChatColor.WHITE + args[1] + ChatColor.GREEN + "'.");
+					player.sendMessage(ChatColor.GREEN + "You've successfully joined group '" + ChatColor.GRAY + args[1] + ChatColor.GREEN + "'.");
 					break;
 			}
 		} else {
@@ -85,7 +85,7 @@ public class GroupsCommand extends BaseCommand {
 		if (player.hasPermission("pvplus.groups.manage")) {
 			if (args.length >= 2) {
 				if (PvPlus.gm.createGroup(args[1])) {
-					player.sendMessage(ChatColor.GREEN + "Group '" + ChatColor.WHITE + args[1] + ChatColor.GREEN + "' has been created!");
+					player.sendMessage(ChatColor.GREEN + "Group '" + ChatColor.GRAY + args[1] + ChatColor.GREEN + "' has been created!");
 					player.sendMessage(ChatColor.GREEN + "You can set its owner using " + ChatColor.GOLD + "/groups setowner <group> <name>" + ChatColor.GREEN + ".");
 				} else {
 					player.sendMessage(ChatColor.RED + "A group with the specified name already exists.");
@@ -102,7 +102,7 @@ public class GroupsCommand extends BaseCommand {
 		if (player.hasPermission("pvplus.groups.manage")) {
 			if (args.length >= 3) {
 				if (PvPlus.gm.setOwner(args[1], args[2])) {
-					player.sendMessage(ChatColor.GREEN + "The owner of group '" + ChatColor.WHITE + args[1] + ChatColor.GREEN + "' has been set to '" + ChatColor.WHITE + args[2] + ChatColor.GREEN + "'.");
+					player.sendMessage(ChatColor.GREEN + "The owner of group '" + ChatColor.GRAY + args[1] + ChatColor.GREEN + "' has been set to '" + ChatColor.WHITE + args[2] + ChatColor.GREEN + "'.");
 				} else {
 					player.sendMessage(ChatColor.RED + "A group with the specified name does not exist.");
 				}
@@ -118,7 +118,7 @@ public class GroupsCommand extends BaseCommand {
 		if (player.hasPermission("pvplus.groups.manage")) {
 			if (args.length >= 2) {
 				if (PvPlus.gm.remove(args[1])) {
-					player.sendMessage(ChatColor.GREEN + "Group '" + ChatColor.WHITE + args[1] + ChatColor.GREEN + "' has been remove successfully!");
+					player.sendMessage(ChatColor.GREEN + "Group '" + ChatColor.GRAY + args[1] + ChatColor.GREEN + "' has been remove successfully!");
 				} else {
 					player.sendMessage(ChatColor.RED + "A group with the specified name does not exist.");
 				}

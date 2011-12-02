@@ -20,7 +20,6 @@ public class OutpostListeners {
 		//TODO: Cancel the events
 
 		//Signs
-		//TODO: Separate check for fire breaking.
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
 			if (block.getType() == Material.WALL_SIGN) {
@@ -48,6 +47,7 @@ public class OutpostListeners {
 	}
 
 	public static void onBlockBreak(BlockBreakEvent event) {
+		//TODO: Separate check for fire breaking.
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {
@@ -57,6 +57,9 @@ public class OutpostListeners {
 	}
 
 	public static void onBlockPlace(BlockPlaceEvent event) {
+
+		//TODO: Check for the creation of signs
+
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {

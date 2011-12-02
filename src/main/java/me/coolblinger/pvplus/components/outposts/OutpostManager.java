@@ -24,6 +24,14 @@ public class OutpostManager {
 		return outposts.keySet();
 	}
 
+	public String getOwner (String outpost) {
+		if (outposts.containsKey(outpost)) {
+			return outposts.get(outpost).owner;
+		} else {
+			return null;
+		}
+	}
+
 	public boolean setOwner(String name, String owner) {
 		if (outposts.containsKey(name)) {
 			outposts.get(name).owner = owner;

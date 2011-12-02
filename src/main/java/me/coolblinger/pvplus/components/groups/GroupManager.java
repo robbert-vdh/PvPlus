@@ -1,13 +1,12 @@
 package me.coolblinger.pvplus.components.groups;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class GroupManager {
 
@@ -54,6 +53,32 @@ public class GroupManager {
 			}
 		}
 		return null;
+	}
+
+	public List<Player> getPlayers(String group) {
+		if (groups.containsKey(group)) {
+			List<Player> players = new ArrayList<Player>();
+			for (String player:groups.get(group).players) {
+				Player playerObject = Bukkit.getPlayerExact(player);
+				if (playerObject != null) {
+					players.add(playerObject);
+				}
+			}
+			return players;
+		} else {
+			return null;
+		}
+	}
+
+	public void sendMessage(String groupName, String message) throws IllegalArgumentException {
+		List<Player> players = getPlayers(groupName);
+		if (players != null) {
+			for (Player player:players) {
+				player.sendMessage(message);
+			}
+		} else {
+			throw new IllegalArgumentException("No such group '" + groupName + "'");
+		}
 	}
 
 	public boolean createGroup(String name) {

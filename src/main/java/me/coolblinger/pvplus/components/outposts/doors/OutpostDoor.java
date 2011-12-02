@@ -1,6 +1,7 @@
 package me.coolblinger.pvplus.components.outposts.doors;
 
 import me.coolblinger.pvplus.PvPlus;
+import me.coolblinger.pvplus.PvPlusUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,22 +12,53 @@ import org.bukkit.material.Door;
 
 public class OutpostDoor implements Runnable {
 	private boolean isCanceled = false;
+	private boolean isSucceeded = false;
 	public Location signBlockLocation;
 	public Location doorBlockLocation;
 	public Player capturer;
+	public String outpost;
+	public String capturingGroup;
+	public String owningGroup;
 	public int stage = 10;
 
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
+		outpost = PvPlusUtils.getOutpost(signBlockLocation.toVector());
+		if (outpost == null) {
+			capturer.sendMessage(ChatColor.RED + "This sign is not located in an outpost.");
+			isCanceled = true;
+			return;
+		}
 		doorBlockLocation = doorCheck();
 		if (doorBlockLocation == null) {
 			capturer.sendMessage(ChatColor.RED + "There is no adjacent door.");
 			isCanceled = true;
 			return;
 		}
+		this.capturer = capturer;
+		capturingGroup = PvPlus.gm.getGroup(capturer.getName());
+		if (capturingGroup == null) {
+			capturer.sendMessage(ChatColor.RED + "You have to be in a group in order to do this.");
+			isCanceled = true;
+			return;
+		}
+		owningGroup = PvPlus.om.getOwner(outpost);
+		if (capturingGroup.equals(owningGroup)) {
+			capturer.sendMessage(ChatColor.RED + "Your group owns this outpost.");
+			isCanceled = true;
+			return;
+		}
+		//TODO: Debug
+		capturer.sendMessage(capturingGroup);
+		capturer.sendMessage(owningGroup);
+		
+		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+		if (!owningGroup.equals("///")) {
+			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED  + " is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+		}
 		Sign signSign = (Sign) sign.getState();
 		signSign.setLine(1, "§4||||||||||");
-		signSign.setLine(2, capturer.getDisplayName());
+		signSign.setLine(2, capturer.getName());
 		signSign.update();
 	}
 
@@ -69,6 +101,12 @@ public class OutpostDoor implements Runnable {
 	}
 
 	public void remove() {
+		if (!isCanceled && !isSucceeded) {
+			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+			if (!owningGroup.equals("///")) {
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+			}
+		}
 		Block signBlock = getSignBlock();
 		if (signBlock.getState() instanceof Sign) {
 			Sign signSign = (Sign) signBlock.getState();
@@ -83,6 +121,7 @@ public class OutpostDoor implements Runnable {
 		//TODO: Message to both groups
 		Block doorBlock = doorBlockLocation.getBlock();
 		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
+			isSucceeded = true;
 			Door door = (Door) doorBlock.getState().getData();
 			if (door.isOpen()) {
 				door.setOpen(false);
@@ -91,6 +130,10 @@ public class OutpostDoor implements Runnable {
 				door = (Door) doorBlock.getState().getData();
 				door.setOpen(false);
 				doorBlock.setData(door.getData());
+			}
+			PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+			if (!owningGroup.equals("///")) {
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			}
 		}
 		remove();
