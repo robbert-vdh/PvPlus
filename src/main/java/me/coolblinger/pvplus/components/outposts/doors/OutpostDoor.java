@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.block.SpoutBlock;
+import org.bukkit.material.Door;
 
 public class OutpostDoor implements Runnable {
 	private boolean isCanceled = false;
@@ -80,10 +80,18 @@ public class OutpostDoor implements Runnable {
 	}
 
 	public void unlock() {
+		//TODO: Message to both groups
 		Block doorBlock = doorBlockLocation.getBlock();
 		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
-			SpoutBlock door = (SpoutBlock) getSignBlock();
-			//door.setBlock;
+			Door door = (Door) doorBlock.getState().getData();
+			if (door.isOpen()) {
+				door.setOpen(false);
+				doorBlock.setData(door.getData());
+				doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
+				door = (Door) doorBlock.getState().getData();
+				door.setOpen(false);
+				doorBlock.setData(door.getData());
+			}
 		}
 		remove();
 	}

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class GroupManager {
+
+	//TODO: Group chat starting with '@'
+
 	private HashMap<String, Group> groups = new HashMap<String, Group>();
 
 	public GroupManager() {
