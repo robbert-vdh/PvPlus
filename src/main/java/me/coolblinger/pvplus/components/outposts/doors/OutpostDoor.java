@@ -54,7 +54,7 @@ public class OutpostDoor implements Runnable {
 		
 		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 		if (!owningGroup.equals("///")) {
-			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED  + " is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED  + " is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 		}
 		Sign signSign = (Sign) sign.getState();
 		signSign.setLine(1, "§4||||||||||");
@@ -104,7 +104,7 @@ public class OutpostDoor implements Runnable {
 		if (!isCanceled && !isSucceeded) {
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			if (!owningGroup.equals("///")) {
-				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			}
 		}
 		Block signBlock = getSignBlock();
@@ -123,7 +123,7 @@ public class OutpostDoor implements Runnable {
 		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
 			isSucceeded = true;
 			Door door = (Door) doorBlock.getState().getData();
-			if (door.isOpen()) {
+			if (door.isOpen()) { //TODO: Fix iron doors
 				door.setOpen(false);
 				doorBlock.setData(door.getData());
 				doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
@@ -133,7 +133,7 @@ public class OutpostDoor implements Runnable {
 			}
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			if (!owningGroup.equals("///")) {
-				PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has breached a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			}
 		}
 		remove();
