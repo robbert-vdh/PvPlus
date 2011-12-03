@@ -48,10 +48,18 @@ public class OutpostListeners {
 				return;
 			}
 		}
+		if (!player.hasPermission("pvplus.outposts.manage")) {
+			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+				if (PvPlusUtils.getOutpost(event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().toVector()) != null) {
+					if (event.getClickedBlock().getRelative(event.getBlockFace()).getType() == Material.FIRE) {
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
 	}
 
 	public static void onBlockBreak(BlockBreakEvent event) {
-		//TODO: Separate check for fire breaking.
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {

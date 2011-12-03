@@ -58,7 +58,7 @@ public class PvPlus extends JavaPlugin {
 			public void run() {
 				om.runDoors();
 			}
-		}, 0, 10); //TODO: Change back to 60
+		}, 0, 60);
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");
 	}
 }
