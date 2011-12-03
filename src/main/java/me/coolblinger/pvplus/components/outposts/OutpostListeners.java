@@ -63,9 +63,6 @@ public class OutpostListeners {
 	}
 
 	public static void onBlockPlace(BlockPlaceEvent event) {
-
-		//TODO: Check for the creation of signs
-
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {
