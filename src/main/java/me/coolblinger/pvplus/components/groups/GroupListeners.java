@@ -1,6 +1,7 @@
 package me.coolblinger.pvplus.components.groups;
 
 import me.coolblinger.pvplus.PvPlus;
+import me.coolblinger.pvplus.PvPlusUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -13,6 +14,17 @@ public class GroupListeners {
 		String group = PvPlus.gm.getGroup(event.getPlayer().getName());
 		if (group != null) {
 			event.setFormat("[" + ChatColor.GRAY + group + ChatColor.WHITE + "]" + event.getFormat());
+		}
+		if (event.getMessage().startsWith("@")) {
+			String groupName = PvPlus.gm.getGroup(event.getPlayer().getName());
+			String message = event.getMessage().substring(1);
+			if (groupName != null) {
+				PvPlus.gm.sendMessage(groupName, ChatColor.BLUE + event.getPlayer().getDisplayName() + ": " + message);
+				PvPlusUtils.log.info("@[" + groupName + "]" + event.getPlayer().getDisplayName() + ": " + message);
+			} else {
+				event.getPlayer().sendMessage(ChatColor.RED + "You're not in a group.");
+			}
+			event.setCancelled(true);
 		}
 	}
 

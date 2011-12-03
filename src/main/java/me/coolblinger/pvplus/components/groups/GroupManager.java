@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class GroupManager {
-
-	//TODO: Group chat starting with '@'
-
 	private HashMap<String, Group> groups = new HashMap<String, Group>();
 
 	public GroupManager() {
