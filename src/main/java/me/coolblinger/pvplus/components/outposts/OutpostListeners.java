@@ -27,6 +27,8 @@ public class OutpostListeners {
 				if (sign.getLine(0).equalsIgnoreCase("[PvPlus Door]")) {
 					if (!PvPlus.om.doors.containsKey(block.getLocation())) {
 						PvPlus.om.doors.put(block.getLocation(), new OutpostDoor(block, player));
+						event.setCancelled(true);
+						return;
 					}
 				}
 			}
@@ -38,10 +40,14 @@ public class OutpostListeners {
 				PvPlus.om.outposts.get(outpost).x1 = event.getClickedBlock().getX();
 				PvPlus.om.outposts.get(outpost).z1 = event.getClickedBlock().getZ();
 				player.sendMessage(ChatColor.GREEN + "Corner one set to " + ChatColor.WHITE + event.getClickedBlock().getX() + "," + event.getClickedBlock().getZ() + ChatColor.GREEN + ".");
+				event.setCancelled(true);
+				return;
 			} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				PvPlus.om.outposts.get(outpost).x2 = event.getClickedBlock().getX();
 				PvPlus.om.outposts.get(outpost).z2 = event.getClickedBlock().getZ();
 				player.sendMessage(ChatColor.GREEN + "Corner two set to " + ChatColor.WHITE + event.getClickedBlock().getX() + "," + event.getClickedBlock().getZ() + ChatColor.GREEN + ".");
+				event.setCancelled(true);
+				return;
 			}
 		}
 	}
