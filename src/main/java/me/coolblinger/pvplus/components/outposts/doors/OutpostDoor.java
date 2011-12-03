@@ -115,18 +115,29 @@ public class OutpostDoor implements Runnable {
 	}
 
 	public void unlock() {
-		//TODO: Message to both groups
 		Block doorBlock = doorBlockLocation.getBlock();
 		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
+			//TODO: Open/close protection for X seconds
 			isSucceeded = true;
 			Door door = (Door) doorBlock.getState().getData();
-			if (door.isOpen()) { //TODO: Fix iron doors
-				door.setOpen(false);
-				doorBlock.setData(door.getData());
-				doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
-				door = (Door) doorBlock.getState().getData();
-				door.setOpen(false);
-				doorBlock.setData(door.getData());
+			if (doorBlock.getType() == Material.WOODEN_DOOR) {
+				if (door.isOpen()) {
+					door.setOpen(false);
+					doorBlock.setData(door.getData());
+					doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
+					door = (Door) doorBlock.getState().getData();
+					door.setOpen(false);
+					doorBlock.setData(door.getData());
+				}
+			} else if (doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
+				if (!door.isOpen()) {
+					door.setOpen(true);
+					doorBlock.setData(door.getData());
+					doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
+					door = (Door) doorBlock.getState().getData();
+					door.setOpen(true);
+					doorBlock.setData(door.getData());
+				}
 			}
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			if (!owningGroup.equals("///")) {
