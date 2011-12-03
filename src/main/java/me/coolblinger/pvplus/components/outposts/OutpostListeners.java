@@ -12,13 +12,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class OutpostListeners {
 	public static void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-
-		//TODO: Cancel the events
-
 		//Signs
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
@@ -68,6 +66,13 @@ public class OutpostListeners {
 			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {
 				event.setCancelled(true);
 			}
+		}
+	}
+
+	public static void onPlayerQuit (PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		if (PvPlus.om.getDefining(player) != null) {
+			PvPlus.om.toggleDefining(PvPlus.om.getDefining(player), player);
 		}
 	}
 }

@@ -5,6 +5,7 @@ import me.coolblinger.pvplus.components.outposts.OutpostListeners;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PvPlusPlayerListener extends PlayerListener {
 
@@ -14,5 +15,9 @@ public class PvPlusPlayerListener extends PlayerListener {
 
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		OutpostListeners.onPlayerInteract(event);
+	}
+
+	public void onPlayerQuit (PlayerQuitEvent event) {
+		OutpostListeners.onPlayerQuit(event);
 	}
 }

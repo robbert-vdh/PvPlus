@@ -69,10 +69,7 @@ public class OutpostManager {
 		}
 		return null;
 	}
-
-	//TODO: Remove on disconnect
-	//TODO: The PlayerListener thing
-
+	
 	public int toggleDefining(String outpost, Player player) {
 		if (!defining.containsValue(player)) {
 			if (outposts.containsKey(outpost)) {
