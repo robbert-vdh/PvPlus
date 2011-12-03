@@ -99,9 +99,9 @@ public class OutpostDoor implements Runnable {
 
 	public void remove() {
 		if (!isCanceled && !isSucceeded) {
-			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			if (!owningGroup.equals("///")) {
-				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			}
 		}
 		Block signBlock = getSignBlock();
