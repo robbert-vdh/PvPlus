@@ -48,9 +48,6 @@ public class OutpostDoor implements Runnable {
 			isCanceled = true;
 			return;
 		}
-		//TODO: Debug
-		capturer.sendMessage(capturingGroup);
-		capturer.sendMessage(owningGroup);
 		
 		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group is trying to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 		if (!owningGroup.equals("///")) {
@@ -152,6 +149,11 @@ public class OutpostDoor implements Runnable {
 			return;
 		}
 		if (signBlock.getState() instanceof Sign) {
+			if (signBlock.getLocation().distance(capturer.getLocation()) > 5) {
+				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the door!");
+				remove();
+				return;
+			}
 			stage--;
 			String stageString = "§4";
 			for (int i = 0; i <= stage; i++) {
