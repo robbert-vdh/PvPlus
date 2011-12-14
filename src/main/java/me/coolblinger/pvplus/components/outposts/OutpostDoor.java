@@ -1,4 +1,4 @@
-package me.coolblinger.pvplus.components.outposts.doors;
+package me.coolblinger.pvplus.components.outposts;
 
 import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;

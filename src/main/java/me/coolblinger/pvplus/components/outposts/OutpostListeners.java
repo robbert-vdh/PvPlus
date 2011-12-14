@@ -2,7 +2,6 @@ package me.coolblinger.pvplus.components.outposts;
 
 import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;
-import me.coolblinger.pvplus.components.outposts.doors.OutpostDoor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

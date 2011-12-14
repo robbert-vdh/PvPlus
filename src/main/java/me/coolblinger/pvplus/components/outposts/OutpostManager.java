@@ -1,6 +1,5 @@
 package me.coolblinger.pvplus.components.outposts;
 
-import me.coolblinger.pvplus.components.outposts.doors.OutpostDoor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -17,6 +16,7 @@ public class OutpostManager {
 	private HashMap<String, Player> defining = new HashMap<String, Player>();
 
 	//TODO: Teleporting to cores?
+	//TODO: Info signs
 
 	public OutpostManager() {
 		load();
