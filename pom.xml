@@ -17,10 +17,6 @@
 			<id>repo</id>
 			<url>http://repo.bukkit.org/artifactory/repo/</url>
 		</repository>
-		<repository>
-			<id>spout</id>
-			<url>http://repo.getspout.org/</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -29,11 +25,6 @@
 			<artifactId>bukkit</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.getspout</groupId>
-			<artifactId>spoutapi</artifactId>
-			<version>dev-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
