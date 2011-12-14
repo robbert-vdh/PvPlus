@@ -4,8 +4,10 @@ import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;
 import me.coolblinger.pvplus.components.outposts.doors.OutpostDoor;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -42,20 +44,27 @@ public class OutpostListeners {
 							event.setCancelled(true);
 							return;
 						}
-					}
-				}
-			}
-			if (block.getType() == Material.WOODEN_DOOR || block.getType() == Material.IRON_DOOR_BLOCK) {
-				String outpost = PvPlusUtils.getOutpost(block.getLocation().toVector());
-				if (outpost != null) {
-					String group = PvPlus.gm.getGroup(player.getName());
-					String owningGroup = PvPlus.om.getOwner(outpost);
-					if (owningGroup.equals(group)) {
-						if (PvPlus.om.doors.containsKey(block.getLocation())) {
-							if (PvPlus.om.doors.get(block.getLocation()).isSucceeded) {
-								player.sendMessage(ChatColor.RED + "You can't close doors shortly after they have been breached.");
-								event.setCancelled(true);
-								return;
+					} else {
+						Location signLocation = null;
+						for (OutpostDoor door:PvPlus.om.doors.values()) {
+							Location doorLocation = door.doorBlockLocation;
+							if (doorLocation != null) {
+								if (block.getRelative(BlockFace.DOWN).getType() == block.getType()) {
+									if (block.getRelative(BlockFace.DOWN).getLocation().equals(doorLocation)) {
+										signLocation = door.signBlockLocation;
+									}
+								} else if (block.getLocation().equals(doorLocation)) {
+									signLocation = door.signBlockLocation;
+								}
+							}
+						}
+						if (signLocation != null) {
+							if (PvPlus.om.doors.containsKey(signLocation)) {
+								if (PvPlus.om.doors.get(signLocation).isSucceeded) {
+									player.sendMessage(ChatColor.RED + "You can't close doors shortly after they have been breached.");
+									event.setCancelled(true);
+									return;
+								}
 							}
 						}
 					}
