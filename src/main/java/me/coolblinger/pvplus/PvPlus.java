@@ -8,6 +8,8 @@ import me.coolblinger.pvplus.components.outposts.OutpostManager;
 import me.coolblinger.pvplus.listeners.PvPlusBlockListener;
 import me.coolblinger.pvplus.listeners.PvPlusEntityListener;
 import me.coolblinger.pvplus.listeners.PvPlusPlayerListener;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -54,11 +56,26 @@ public class PvPlus extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);
+		initConfig();
 		taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 			public void run() {
 				om.runDoors();
 			}
-		}, 0, 60);
+		}, 0, getInt("tickSpeed"));
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");
+	}
+
+	private void initConfig() {
+		YamlConfiguration config = (YamlConfiguration) getConfig();
+		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
+		config.addDefault("doors.range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
+		//TODO: Debug this
+		config.options().copyDefaults(true);
+		saveConfig();
+	}
+
+	public static int getInt(String path) {
+		YamlConfiguration config = (YamlConfiguration) Bukkit.getPluginManager().getPlugin("PvPlus").getConfig();
+		return config.getInt(path);
 	}
 }

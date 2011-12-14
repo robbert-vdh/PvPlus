@@ -16,6 +16,8 @@ public class OutpostManager {
 	public ConcurrentHashMap<Location, OutpostDoor> doors = new ConcurrentHashMap<Location, OutpostDoor>();
 	private HashMap<String, Player> defining = new HashMap<String, Player>();
 
+	//TODO: Teleporting to cores?
+
 	public OutpostManager() {
 		load();
 	}

@@ -17,6 +17,51 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class OutpostListeners {
 	public static void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+		//Doors
+		if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			Block block = event.getClickedBlock();
+			if (block.getType() == Material.WOODEN_DOOR) {
+				String outpost = PvPlusUtils.getOutpost(block.getLocation().toVector());
+				if (outpost != null) {
+					String group = PvPlus.gm.getGroup(player.getName());
+					String owningGroup = PvPlus.om.getOwner(outpost);
+					if (!owningGroup.equals(group)) {
+						if (player.hasPermission("pvplus.outposts.manage")) {
+							if (player.isSneaking() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+								event.getClickedBlock().setType(Material.AIR);
+								player.sendMessage(ChatColor.GREEN + "The door has been successfully removed.");
+								event.setCancelled(true);
+								return;
+							} else {
+								player.sendMessage(ChatColor.RED + "You can't open doors here if your group does not own the outpost. (sneak and right click the door to remove it)");
+								event.setCancelled(true);
+								return;
+							}
+						} else {
+							player.sendMessage(ChatColor.RED + "You can't open doors here if your group does not own the outpost.");
+							event.setCancelled(true);
+							return;
+						}
+					}
+				}
+			}
+			if (block.getType() == Material.WOODEN_DOOR || block.getType() == Material.IRON_DOOR_BLOCK) {
+				String outpost = PvPlusUtils.getOutpost(block.getLocation().toVector());
+				if (outpost != null) {
+					String group = PvPlus.gm.getGroup(player.getName());
+					String owningGroup = PvPlus.om.getOwner(outpost);
+					if (owningGroup.equals(group)) {
+						if (PvPlus.om.doors.containsKey(block.getLocation())) {
+							if (PvPlus.om.doors.get(block.getLocation()).isSucceeded) {
+								player.sendMessage(ChatColor.RED + "You can't close doors shortly after they have been breached.");
+								event.setCancelled(true);
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
 		//Signs
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
@@ -48,6 +93,7 @@ public class OutpostListeners {
 				return;
 			}
 		}
+		//Fire check
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 				if (PvPlusUtils.getOutpost(event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().toVector()) != null) {

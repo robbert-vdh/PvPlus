@@ -2,17 +2,19 @@ package me.coolblinger.pvplus.components.outposts.doors;
 
 import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Door;
 
 public class OutpostDoor implements Runnable {
-	private boolean isCanceled = false;
-	private boolean isSucceeded = false;
+	public boolean isCanceled = false;
+	public boolean isSucceeded = false;
 	public Location signBlockLocation;
 	public Location doorBlockLocation;
 	public Player capturer;
@@ -20,6 +22,8 @@ public class OutpostDoor implements Runnable {
 	public String capturingGroup;
 	public String owningGroup;
 	public int stage = 10;
+
+	//TODO: Cancel redstone
 
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
@@ -114,53 +118,80 @@ public class OutpostDoor implements Runnable {
 		PvPlus.om.doors.remove(signBlockLocation);
 	}
 
+	public void keepOpen() {
+		Block signBlock = getSignBlock();
+		if (signBlock.getState() instanceof Sign) {
+			Sign signSign = (Sign) signBlock.getState();
+			signSign.setLine(1, "");
+			signSign.setLine(2, "");
+			signSign.update();
+		}
+		Block doorBlock = doorBlockLocation.getBlock();
+		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
+			Door door = (Door) doorBlock.getState().getData();
+			if (!door.isOpen()) {
+				door.setOpen(true);
+				doorBlock.setData(door.getData());
+				doorBlock = doorBlock.getRelative(BlockFace.UP);
+				door = (Door) doorBlock.getState().getData();
+				door.setOpen(true);
+				doorBlock.setData(door.getData());
+			}
+		} else {
+			remove();
+		}
+	}
+
 	public void unlock() {
 		Block doorBlock = doorBlockLocation.getBlock();
 		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
-			//TODO: Open/close protection for X seconds
 			isSucceeded = true;
-			Door door = (Door) doorBlock.getState().getData();
-			if (doorBlock.getType() == Material.WOODEN_DOOR) {
-				if (door.isOpen()) {
-					door.setOpen(false);
-					doorBlock.setData(door.getData());
-					doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
-					door = (Door) doorBlock.getState().getData();
-					door.setOpen(false);
-					doorBlock.setData(door.getData());
-				}
-			} else if (doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
-				if (!door.isOpen()) {
-					door.setOpen(true);
-					doorBlock.setData(door.getData());
-					doorBlock = doorBlockLocation.add(0, 1, 0).getBlock();
-					door = (Door) doorBlock.getState().getData();
-					door.setOpen(true);
-					doorBlock.setData(door.getData());
-				}
-			}
+			keepOpen();
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			if (!owningGroup.equals("///")) {
 				PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has breached a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			}
 		}
+		Bukkit.getScheduler().scheduleAsyncDelayedTask(Bukkit.getPluginManager().getPlugin("PvPlus"), new Runnable() {
+			public void run() {
+				close();
+			}
+		}, 100);
+	}
+
+	public void close() {
+		Block doorBlock = doorBlockLocation.getBlock();
+		if (doorBlock.getType() == Material.WOODEN_DOOR || doorBlock.getType() == Material.IRON_DOOR_BLOCK) {
+			Door door = (Door) doorBlock.getState().getData();
+			if (door.isOpen()) {
+				door.setOpen(false);
+				doorBlock.setData(door.getData());
+				doorBlock = doorBlock.getRelative(BlockFace.UP);
+				door = (Door) doorBlock.getState().getData();
+				door.setOpen(false);
+				doorBlock.setData(door.getData());
+			}
+		} else {
+			remove();
+		}
 		remove();
 	}
 
 	public void run() {
+		if (isSucceeded) {
+			return;
+		}
 		if (isCanceled) {
 			remove();
 			return;
 		}
-		//TODO: Customizable range
-		//TODO: Customizable speed
 		Block signBlock = getSignBlock();
 		if (stage < 1) {
 			unlock();
 			return;
 		}
 		if (signBlock.getState() instanceof Sign) {
-			if (signBlock.getLocation().distance(capturer.getLocation()) > 5) {
+			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("doors.range")) {
 				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the door!");
 				remove();
 				return;
