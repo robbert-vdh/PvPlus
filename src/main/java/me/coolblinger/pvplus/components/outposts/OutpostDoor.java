@@ -24,6 +24,7 @@ public class OutpostDoor implements Runnable {
 	public int stage = 10;
 
 	//TODO: Cancel redstone
+	//TODO: Fix the doors
 
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
