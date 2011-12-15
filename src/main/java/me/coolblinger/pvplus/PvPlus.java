@@ -27,6 +27,7 @@ public class PvPlus extends JavaPlugin {
 
 	public void onDisable() {
 		om.removeDoors();
+		om.removeCores();
 		getServer().getScheduler().cancelTask(taskId);
 		gm.save();
 		om.save();
@@ -60,6 +61,7 @@ public class PvPlus extends JavaPlugin {
 		taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 			public void run() {
 				om.runDoors();
+				om.runCores();
 			}
 		}, 0, getInt("tickSpeed"));
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");

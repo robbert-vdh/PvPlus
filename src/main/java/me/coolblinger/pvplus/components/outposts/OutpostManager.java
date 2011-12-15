@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OutpostManager {
 	public HashMap<String, Outpost> outposts = new HashMap<String, Outpost>();
 	public ConcurrentHashMap<Location, OutpostDoor> doors = new ConcurrentHashMap<Location, OutpostDoor>();
+	public ConcurrentHashMap<Location, OutpostCore> cores = new ConcurrentHashMap<Location, OutpostCore>();
 	private HashMap<String, Player> defining = new HashMap<String, Player>();
 
 	//TODO: Teleporting to cores?
@@ -104,6 +105,18 @@ public class OutpostManager {
 	public synchronized void removeDoors() {
 		for (OutpostDoor door : doors.values()) {
 			door.remove();
+		}
+	}
+
+	public synchronized void runCores() {
+		for (OutpostCore core : cores.values()) {
+			core.run();
+		}
+	}
+
+	public synchronized void removeCores() {
+		for (OutpostCore core:cores.values()) {
+			core.remove();
 		}
 	}
 

@@ -81,6 +81,12 @@ public class OutpostListeners {
 						event.setCancelled(true);
 						return;
 					}
+				} else if (sign.getLine(0).equalsIgnoreCase("[PvPlus Core]")) {
+					if (!PvPlus.om.cores.containsKey(block.getLocation())) {
+						PvPlus.om.cores.put(block.getLocation(), new OutpostCore(block, player));
+						event.setCancelled(true);
+						return;
+					}
 				}
 			}
 		}

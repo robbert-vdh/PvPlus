@@ -13,6 +13,7 @@ public class OutpostCore implements Runnable {
 	//TODO: Teleporting to core
 
 	public boolean isCanceled = false;
+	public boolean isSucceeded = false;
 	public Location signBlockLocation;
 	public Player capturer;
 	public String outpost;
@@ -58,10 +59,10 @@ public class OutpostCore implements Runnable {
 	}
 
 	public void remove() {
-		if (!isCanceled) {
+		if (!isCanceled && !isSucceeded) {
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to capture '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			if (!owningGroup.equals("///")) {
-				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.RED + " has failed to capture '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+				PvPlus.gm.sendMessage(owningGroup, ChatColor.GREEN + "[PvP] " + ChatColor.GRAY + capturingGroup + ChatColor.GREEN + " has failed to capture '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 			}
 		}
 		Block signBlock = getSignBlock();
@@ -71,11 +72,12 @@ public class OutpostCore implements Runnable {
 			signSign.setLine(2, "");
 			signSign.update();
 		}
-		PvPlus.om.doors.remove(signBlockLocation);
+		PvPlus.om.cores.remove(signBlockLocation);
 	}
 
 	public void capture() {
-		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully breached a door in '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
+		isSucceeded = true;
+		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully captured '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 		if (!owningGroup.equals("///")) {
 			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] You have lost control of '" + ChatColor.GOLD + outpost + ChatColor.RED + "' to " + ChatColor.GRAY + capturingGroup + ChatColor.RED + ".");
 		}
@@ -89,21 +91,21 @@ public class OutpostCore implements Runnable {
 			return;
 		}
 		Block signBlock = getSignBlock();
-		if (stage < 1) {
-			capture();
-			return;
-		}
-		if (decreaseIn > 0) {
-			decreaseIn--;
-			return;
-		} else {
-			decreaseIn = 2;
-		}
 		if (signBlock.getState() instanceof Sign) {
 			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("doors.range")) {
 				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the core!");
 				remove();
 				return;
+			}
+			if (stage < 1) {
+				capture();
+				return;
+			}
+			if (decreaseIn > 0) {
+				decreaseIn--;
+				return;
+			} else {
+				decreaseIn = 2;
 			}
 			stage--;
 			String stageString = "§4";

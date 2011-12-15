@@ -186,14 +186,14 @@ public class OutpostDoor implements Runnable {
 			return;
 		}
 		Block signBlock = getSignBlock();
-		if (stage < 1) {
-			unlock();
-			return;
-		}
 		if (signBlock.getState() instanceof Sign) {
 			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("doors.range")) {
 				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the door!");
 				remove();
+				return;
+			}
+			if (stage < 1) {
+				unlock();
 				return;
 			}
 			stage--;
