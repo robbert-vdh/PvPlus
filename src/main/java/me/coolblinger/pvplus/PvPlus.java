@@ -15,15 +15,10 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Handler;
-
 public class PvPlus extends JavaPlugin {
 	private int taskId;
 	public static GroupManager gm = new GroupManager();
 	public static OutpostManager om = new OutpostManager();
-
-	//TODO: Debug
-	private Handler handler = new PvPlusHandler();
 
 	public void onDisable() {
 		om.removeDoors();
@@ -32,15 +27,9 @@ public class PvPlus extends JavaPlugin {
 		gm.save();
 		om.save();
 		PvPlusUtils.log.info("PvPlus has been disabled!");
-
-		//TODO: Debug
-		getServer().getLogger().removeHandler(handler);
 	}
 
 	public void onEnable() {
-		//TODO: Debug
-		getServer().getLogger().addHandler(handler);
-
 		PluginDescriptionFile pdf = getDescription();
 		PluginManager pm = getServer().getPluginManager();
 		if (!pm.isPluginEnabled("Spout")) {
@@ -71,7 +60,6 @@ public class PvPlus extends JavaPlugin {
 		YamlConfiguration config = (YamlConfiguration) getConfig();
 		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
 		config.addDefault("doors.range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
-		//TODO: Debug this
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
