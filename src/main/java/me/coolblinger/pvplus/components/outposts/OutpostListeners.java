@@ -155,11 +155,9 @@ public class OutpostListeners {
 					if (door.doorBlockLocation != null) {
 						if (block.getRelative(BlockFace.DOWN).getType() == block.getType()) {
 							if (block.getRelative(BlockFace.DOWN).getLocation().equals(door.doorBlockLocation)) {
-								PvPlusUtils.log.warning("herp");
 								event.setNewCurrent(event.getOldCurrent());
 							}
 						} else if (block.getLocation().equals(door.doorBlockLocation)) {
-							PvPlusUtils.log.warning("derp");
 							event.setNewCurrent(event.getOldCurrent());
 						}
 					}
