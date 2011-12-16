@@ -23,8 +23,6 @@ public class OutpostDoor implements Runnable {
 	public String owningGroup;
 	public int stage = 10;
 
-	//TODO: Cancel redstone
-
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
 		outpost = PvPlusUtils.getOutpost(signBlockLocation.toVector());

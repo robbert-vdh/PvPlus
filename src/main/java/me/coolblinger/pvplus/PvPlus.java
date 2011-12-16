@@ -42,10 +42,11 @@ public class PvPlus extends JavaPlugin {
 		getCommand("outposts").setExecutor(new OutpostsCommand());
 		pm.registerEvent(Event.Type.BLOCK_BREAK, new PvPlusBlockListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.BLOCK_PLACE, new PvPlusBlockListener(), Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PvPlusPlayerListener(), Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.REDSTONE_CHANGE, new PvPlusBlockListener(), Event.Priority.Normal, this);
 		initConfig();
 		taskId = getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 			public void run() {

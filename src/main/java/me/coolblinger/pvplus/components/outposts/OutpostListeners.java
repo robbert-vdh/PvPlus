@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -142,6 +143,27 @@ public class OutpostListeners {
 		Player player = event.getPlayer();
 		if (PvPlus.om.getDefining(player) != null) {
 			PvPlus.om.toggleDefining(PvPlus.om.getDefining(player), player);
+		}
+	}
+
+	public static void onBlockRedstoneChange(BlockRedstoneEvent event) {
+		Block block = event.getBlock();
+		if (block.getType() == Material.WOODEN_DOOR || block.getType() == Material.IRON_DOOR_BLOCK) {
+			for (OutpostDoor door : PvPlus.om.doors.values()) {
+				if (door.isSucceeded) {
+					if (door.doorBlockLocation != null) {
+						if (block.getRelative(BlockFace.DOWN).getType() == block.getType()) {
+							if (block.getRelative(BlockFace.DOWN).getLocation().equals(door.doorBlockLocation)) {
+								PvPlusUtils.log.warning("herp");
+								event.setNewCurrent(event.getOldCurrent());
+							}
+						} else if (block.getLocation().equals(door.doorBlockLocation)) {
+							PvPlusUtils.log.warning("derp");
+							event.setNewCurrent(event.getOldCurrent());
+						}
+					}
+				}
+			}
 		}
 	}
 }
