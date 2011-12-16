@@ -2,10 +2,7 @@ package me.coolblinger.pvplus.listeners;
 
 import me.coolblinger.pvplus.components.groups.GroupListeners;
 import me.coolblinger.pvplus.components.outposts.OutpostListeners;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 public class PvPlusPlayerListener extends PlayerListener {
 

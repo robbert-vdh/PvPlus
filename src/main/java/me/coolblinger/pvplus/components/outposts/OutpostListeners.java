@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class OutpostListeners {
+
 	public static void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		//Doors
