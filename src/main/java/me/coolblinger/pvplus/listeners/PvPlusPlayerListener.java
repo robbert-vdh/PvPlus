@@ -14,6 +14,10 @@ public class PvPlusPlayerListener extends PlayerListener {
 		OutpostListeners.onPlayerInteract(event);
 	}
 
+	public void onPlayerMove(PlayerMoveEvent event) {
+		OutpostListeners.onPlayerMove(event);
+	}
+
 	public void onPlayerQuit (PlayerQuitEvent event) {
 		OutpostListeners.onPlayerQuit(event);
 	}

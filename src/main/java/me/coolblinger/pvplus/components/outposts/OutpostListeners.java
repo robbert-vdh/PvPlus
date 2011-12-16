@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class OutpostListeners {
@@ -162,6 +163,22 @@ public class OutpostListeners {
 							event.setNewCurrent(event.getOldCurrent());
 						}
 					}
+				}
+			}
+		}
+	}
+
+	public static void onPlayerMove(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		if (event.getFrom().getBlock() != event.getTo().getBlock()) {
+			String oldOutpost = PvPlusUtils.getOutpost(event.getFrom().toVector());
+			String newOutpost = PvPlusUtils.getOutpost(event.getTo().toVector());
+			//noinspection StringEquality
+			if (oldOutpost != newOutpost) { //I can't use .equals here because of nulls, and I don't want to make this any longer.
+				if (newOutpost == null) {
+					player.sendMessage(ChatColor.AQUA + "[PvP] You're now leaving '" + ChatColor.GOLD + oldOutpost + ChatColor.AQUA + "'.");
+				} else {
+					player.sendMessage(ChatColor.AQUA + "[PvP] You're now entering '" + ChatColor.GOLD + newOutpost + ChatColor.AQUA + "'.");
 				}
 			}
 		}

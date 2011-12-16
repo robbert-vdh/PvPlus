@@ -18,7 +18,6 @@ public class OutpostManager {
 
 	//TODO: Teleporting to cores?
 	//TODO: Info signs
-	//TODO: Alert when entering
 
 	public OutpostManager() {
 		load();

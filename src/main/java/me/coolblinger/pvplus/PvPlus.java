@@ -45,6 +45,7 @@ public class PvPlus extends JavaPlugin {
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, new PvPlusEntityListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_CHAT, new PvPlusPlayerListener(), Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_MOVE, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, new PvPlusPlayerListener(), Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.REDSTONE_CHANGE, new PvPlusBlockListener(), Event.Priority.Normal, this);
 		initConfig();
