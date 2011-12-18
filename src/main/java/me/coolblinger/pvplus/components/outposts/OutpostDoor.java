@@ -25,7 +25,7 @@ public class OutpostDoor implements Runnable {
 
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
-		outpost = PvPlusUtils.getOutpost(signBlockLocation.toVector());
+		outpost = PvPlusUtils.getOutpost(signBlockLocation);
 		if (outpost == null) {
 			capturer.sendMessage(ChatColor.RED + "This sign is not located in an outpost.");
 			isCanceled = true;

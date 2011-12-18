@@ -25,7 +25,7 @@ public class OutpostListeners {
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
 			if (block.getType() == Material.WOODEN_DOOR) {
-				String outpost = PvPlusUtils.getOutpost(block.getLocation().toVector());
+				String outpost = PvPlusUtils.getOutpost(block.getLocation());
 				if (outpost != null) {
 					String group = PvPlus.gm.getGroup(player.getName());
 					String owningGroup = PvPlus.om.getOwner(outpost);
@@ -99,12 +99,22 @@ public class OutpostListeners {
 			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 				PvPlus.om.outposts.get(outpost).x1 = event.getClickedBlock().getX();
 				PvPlus.om.outposts.get(outpost).z1 = event.getClickedBlock().getZ();
+				if (!PvPlus.om.outposts.get(outpost).world.equals(event.getClickedBlock().getWorld().getName())) {
+					PvPlus.om.outposts.get(outpost).x2 = 0;
+					PvPlus.om.outposts.get(outpost).z2 = 0;
+					PvPlus.om.outposts.get(outpost).world = event.getClickedBlock().getWorld().getName();
+				}
 				player.sendMessage(ChatColor.GREEN + "Corner one set to " + ChatColor.WHITE + event.getClickedBlock().getX() + "," + event.getClickedBlock().getZ() + ChatColor.GREEN + ".");
 				event.setCancelled(true);
 				return;
 			} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				PvPlus.om.outposts.get(outpost).x2 = event.getClickedBlock().getX();
 				PvPlus.om.outposts.get(outpost).z2 = event.getClickedBlock().getZ();
+				if (!PvPlus.om.outposts.get(outpost).world.equals(event.getClickedBlock().getWorld().getName())) {
+					PvPlus.om.outposts.get(outpost).x1 = 0;
+					PvPlus.om.outposts.get(outpost).z1 = 0;
+					PvPlus.om.outposts.get(outpost).world = event.getClickedBlock().getWorld().getName();
+				}
 				player.sendMessage(ChatColor.GREEN + "Corner two set to " + ChatColor.WHITE + event.getClickedBlock().getX() + "," + event.getClickedBlock().getZ() + ChatColor.GREEN + ".");
 				event.setCancelled(true);
 				return;
@@ -113,7 +123,7 @@ public class OutpostListeners {
 		//Fire check
 		if (!player.hasPermission("pvplus.outposts.manage")) {
 			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-				if (PvPlusUtils.getOutpost(event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().toVector()) != null) {
+				if (PvPlusUtils.getOutpost(event.getClickedBlock().getRelative(event.getBlockFace()).getLocation()) != null) {
 					if (event.getClickedBlock().getRelative(event.getBlockFace()).getType() == Material.FIRE) {
 						event.setCancelled(true);
 					}
@@ -125,7 +135,7 @@ public class OutpostListeners {
 	public static void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
-			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {
+			if (PvPlusUtils.getOutpost(event.getBlock().getLocation()) != null) {
 				event.setCancelled(true);
 			}
 		}
@@ -134,7 +144,7 @@ public class OutpostListeners {
 	public static void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		if (!player.hasPermission("pvplus.outposts.manage")) {
-			if (PvPlusUtils.getOutpost(event.getBlock().getLocation().toVector()) != null) {
+			if (PvPlusUtils.getOutpost(event.getBlock().getLocation()) != null) {
 				event.setCancelled(true);
 			}
 		}
@@ -169,8 +179,8 @@ public class OutpostListeners {
 	public static void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		if (event.getFrom().getBlock() != event.getTo().getBlock()) {
-			String oldOutpost = PvPlusUtils.getOutpost(event.getFrom().toVector());
-			String newOutpost = PvPlusUtils.getOutpost(event.getTo().toVector());
+			String oldOutpost = PvPlusUtils.getOutpost(event.getFrom());
+			String newOutpost = PvPlusUtils.getOutpost(event.getTo());
 			//noinspection StringEquality
 			if (oldOutpost != newOutpost) { //I can't use .equals here because of nulls, and I don't want to make this any longer.
 				if (newOutpost == null) {

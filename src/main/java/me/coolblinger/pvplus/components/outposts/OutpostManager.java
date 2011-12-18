@@ -132,6 +132,7 @@ public class OutpostManager {
 			outposts.put(key, new Outpost());
 			outposts.get(key).name = key;
 			outposts.get(key).owner = config.getString(key + ".owner");
+			outposts.get(key).world = config.getString(key + ".world");
 			outposts.get(key).x1 = config.getDouble(key + ".x1", 0);
 			outposts.get(key).z1 = config.getDouble(key + ".z1", 0);
 			outposts.get(key).x2 = config.getDouble(key + ".x2", 0);
@@ -154,6 +155,7 @@ public class OutpostManager {
 		Set<String> keys = outposts.keySet();
 		for (String key : keys) {
 			config.set(key + ".owner", outposts.get(key).owner);
+			config.set(key + ".world", outposts.get(key).world);
 			config.set(key + ".x1", outposts.get(key).x1);
 			config.set(key + ".z1", outposts.get(key).z1);
 			config.set(key + ".x2", outposts.get(key).x2);

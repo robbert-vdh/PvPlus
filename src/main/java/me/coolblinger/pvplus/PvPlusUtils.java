@@ -2,8 +2,8 @@ package me.coolblinger.pvplus;
 
 import me.coolblinger.pvplus.components.outposts.Outpost;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +39,13 @@ public class PvPlusUtils {
 		}
 	}
 
-	public static String getOutpost(Vector loc) {
+	public static String getOutpost(Location loc) {
 		List<Outpost> outposts = new ArrayList<Outpost>(PvPlus.om.outposts.values());
 		for (Outpost outpost : outposts) {
-			if (clamp(loc.getX(), outpost.x1, outpost.x2) == loc.getX() && clamp(loc.getZ(), outpost.z1, outpost.z2) == loc.getZ()) {
-				return outpost.name;
+			if (outpost.world.equals(loc.getWorld().getName())) {
+				if (clamp(loc.getX(), outpost.x1, outpost.x2) == loc.getX() && clamp(loc.getZ(), outpost.z1, outpost.z2) == loc.getZ()) {
+					return outpost.name;
+				}
 			}
 		}
 		return null;
