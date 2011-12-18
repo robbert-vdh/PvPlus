@@ -7,4 +7,7 @@ public class Outpost {
 	public double z1;
 	public double x2;
 	public double z2;
+	public double coreX;
+	public double coreY;
+	public double coreZ;
 }

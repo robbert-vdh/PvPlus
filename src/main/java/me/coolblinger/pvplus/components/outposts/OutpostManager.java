@@ -136,6 +136,9 @@ public class OutpostManager {
 			outposts.get(key).z1 = config.getDouble(key + ".z1", 0);
 			outposts.get(key).x2 = config.getDouble(key + ".x2", 0);
 			outposts.get(key).z2 = config.getDouble(key + ".z2", 0);
+			outposts.get(key).coreX = config.getDouble(key + ".coreX", 0);
+			outposts.get(key).coreY = config.getDouble(key + ".coreY", 0);
+			outposts.get(key).coreZ = config.getDouble(key + ".coreZ", 0);
 		}
 	}
 
@@ -155,6 +158,9 @@ public class OutpostManager {
 			config.set(key + ".z1", outposts.get(key).z1);
 			config.set(key + ".x2", outposts.get(key).x2);
 			config.set(key + ".z2", outposts.get(key).z2);
+			config.set(key + ".coreX", outposts.get(key).coreX);
+			config.set(key + ".coreX", outposts.get(key).coreX);
+			config.set(key + ".coreZ", outposts.get(key).coreZ);
 		}
 		try {
 			config.save(file);
