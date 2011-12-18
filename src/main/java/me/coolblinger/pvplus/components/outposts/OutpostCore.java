@@ -84,6 +84,8 @@ public class OutpostCore implements Runnable {
 		PvPlus.om.setOwner(outpost, capturingGroup);
 		PvPlus.om.setCore(outpost, signBlockLocation.subtract(0, 1, 0));
 		remove();
+
+		//TODO: Sign does not seem to clear itself out
 	}
 
 	public void run() {

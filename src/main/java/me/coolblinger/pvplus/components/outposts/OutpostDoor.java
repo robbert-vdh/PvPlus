@@ -23,6 +23,8 @@ public class OutpostDoor implements Runnable {
 	public String owningGroup;
 	public int stage = 10;
 
+	//TODO: Fix the doors, again
+
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
 		outpost = PvPlusUtils.getOutpost(signBlockLocation);

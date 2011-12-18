@@ -60,7 +60,7 @@ public class OutpostManager {
 	public int teleportToCore(String name, Player player) {
 		if (outposts.containsKey(name)) {
 			if (PvPlus.gm.getGroup(player.getName()).equals(outposts.get(name).owner)) {
-				player.teleport(new Location(Bukkit.getWorld(outposts.get(name).world), outposts.get(name).coreX, outposts.get(name).coreY, outposts.get(name).coreZ));
+				player.teleport(new Location(Bukkit.getWorld(outposts.get(name).world), outposts.get(name).coreX + 0.5, outposts.get(name).coreY, outposts.get(name).coreZ + 0.5));
 				return 2;
 			} else {
 				return 1;
@@ -187,7 +187,7 @@ public class OutpostManager {
 			config.set(key + ".x2", outposts.get(key).x2);
 			config.set(key + ".z2", outposts.get(key).z2);
 			config.set(key + ".coreX", outposts.get(key).coreX);
-			config.set(key + ".coreX", outposts.get(key).coreX);
+			config.set(key + ".coreY", outposts.get(key).coreY);
 			config.set(key + ".coreZ", outposts.get(key).coreZ);
 		}
 		try {

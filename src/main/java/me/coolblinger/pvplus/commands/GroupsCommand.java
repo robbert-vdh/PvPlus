@@ -23,6 +23,8 @@ public class GroupsCommand extends BaseCommand {
 			list(player);
 		} else if (args[0].equalsIgnoreCase("leave")) {
 			leave(player);
+		} else if (args[0].equalsIgnoreCase("teleport")) {
+			teleport(player, args);
 		} else if (args[0].equalsIgnoreCase("create")) {
 			create(player, args);
 		} else if (args[0].equalsIgnoreCase("remove")) {
@@ -39,6 +41,7 @@ public class GroupsCommand extends BaseCommand {
 		player.sendMessage(ChatColor.GOLD + "/groups join <name>" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Join the specified group.");
 		player.sendMessage(ChatColor.GOLD + "/groups list" + ChatColor.WHITE + " - " + ChatColor.AQUA + "List all of the groups");
 		player.sendMessage(ChatColor.GOLD + "/groups leave" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Leave your current group");
+		player.sendMessage(ChatColor.GOLD + "/groups teleport" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Teleport to the core of an outpost your group controls");
 		if (player.hasPermission("pvplus.groups.manage")) {
 			player.sendMessage(ChatColor.GOLD + "/groups create <name>" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Create a new group");
 			player.sendMessage(ChatColor.GOLD + "/groups remove <name>" + ChatColor.WHITE + " - " + ChatColor.AQUA + "Remove a group");
@@ -78,6 +81,25 @@ public class GroupsCommand extends BaseCommand {
 			player.sendMessage(ChatColor.GREEN + "You've successfully left your group.");
 		} else {
 			player.sendMessage(ChatColor.RED + "You're not in a group!");
+		}
+	}
+
+	private void teleport(Player player, String[] args) {
+		if (args.length >= 2) {
+			int outcome = PvPlus.om.teleportToCore(args[1], player);
+			switch (outcome) {
+				case 0:
+					player.sendMessage(ChatColor.RED + "The specified outpost does not exist.");
+					break;
+				case 1:
+					player.sendMessage(ChatColor.RED + "Your group does not control the specified outpost.");
+					break;
+				case 2:
+					player.sendMessage(ChatColor.GREEN + "You've successfully teleported to '" + ChatColor.GRAY + args[1] + ChatColor.GREEN + "'.");
+					break;
+			}
+		} else {
+			player.sendMessage(ChatColor.RED + "You need to specify the name of the outpost you'd like to teleport to.");
 		}
 	}
 
