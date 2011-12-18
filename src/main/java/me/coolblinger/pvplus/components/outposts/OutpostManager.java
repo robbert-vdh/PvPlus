@@ -1,5 +1,7 @@
 package me.coolblinger.pvplus.components.outposts;
 
+import me.coolblinger.pvplus.PvPlus;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -41,6 +43,30 @@ public class OutpostManager {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public boolean setCore(String name, Location loc) {
+		if (outposts.containsKey(name)) {
+			outposts.get(name).coreX = loc.getX();
+			outposts.get(name).coreY = loc.getY();
+			outposts.get(name).coreZ = loc.getZ();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public int teleportToCore(String name, Player player) {
+		if (outposts.containsKey(name)) {
+			if (PvPlus.gm.getGroup(player.getName()).equals(outposts.get(name).owner)) {
+				player.teleport(new Location(Bukkit.getWorld(outposts.get(name).world), outposts.get(name).coreX, outposts.get(name).coreY, outposts.get(name).coreZ));
+				return 2;
+			} else {
+				return 1;
+			}
+		} else {
+			return 0;
 		}
 	}
 

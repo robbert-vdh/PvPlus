@@ -82,6 +82,7 @@ public class OutpostCore implements Runnable {
 			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] You have lost control of '" + ChatColor.GOLD + outpost + ChatColor.RED + "' to " + ChatColor.GRAY + capturingGroup + ChatColor.RED + ".");
 		}
 		PvPlus.om.setOwner(outpost, capturingGroup);
+		PvPlus.om.setCore(outpost, signBlockLocation.subtract(0, 1, 0));
 		remove();
 	}
 
