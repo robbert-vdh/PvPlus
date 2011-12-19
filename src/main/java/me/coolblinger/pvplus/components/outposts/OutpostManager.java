@@ -146,8 +146,10 @@ public class OutpostManager {
 	}
 
 	public synchronized void handleMoney() {
-		for (Outpost outpost:outposts.values()) {
-			PvPlus.gm.giveMoney(outpost.owner, PvPlus.getDouble("moneyPerTick"));
+		if (Bukkit.getPluginManager().getPlugin("Register") != null) {
+			for (Outpost outpost:outposts.values()) {
+				PvPlus.gm.giveMoney(outpost.owner, PvPlus.getDouble("moneyPerTick"));
+			}
 		}
 	}
 
