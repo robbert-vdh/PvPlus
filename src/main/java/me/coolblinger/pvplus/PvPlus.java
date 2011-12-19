@@ -53,6 +53,7 @@ public class PvPlus extends JavaPlugin {
 			public void run() {
 				om.runDoors();
 				om.runCores();
+				om.handleMoney();
 			}
 		}, 0, getInt("tickSpeed"));
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");
@@ -61,7 +62,8 @@ public class PvPlus extends JavaPlugin {
 	private void initConfig() {
 		YamlConfiguration config = (YamlConfiguration) getConfig();
 		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
-		config.addDefault("doors.range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
+		config.addDefault("moneyPerTick", 0); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
+		config.addDefault("range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -69,5 +71,10 @@ public class PvPlus extends JavaPlugin {
 	public static int getInt(String path) {
 		YamlConfiguration config = (YamlConfiguration) Bukkit.getPluginManager().getPlugin("PvPlus").getConfig();
 		return config.getInt(path);
+	}
+
+	public static double getDouble(String path) {
+		YamlConfiguration config = (YamlConfiguration) Bukkit.getPluginManager().getPlugin("PvPlus").getConfig();
+		return config.getDouble(path);
 	}
 }

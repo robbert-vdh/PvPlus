@@ -145,6 +145,12 @@ public class OutpostManager {
 		}
 	}
 
+	public synchronized void handleMoney() {
+		for (Outpost outpost:outposts.values()) {
+			PvPlus.gm.giveMoney(outpost.owner, PvPlus.getDouble("moneyPerTick"));
+		}
+	}
+
 	public synchronized void load() {
 		File file = new File("plugins" + File.separator + "PvPlus" + File.separator + "outposts.yml");
 		if (!file.exists()) {

@@ -1,5 +1,6 @@
 package me.coolblinger.pvplus.components.groups;
 
+import com.nijikokun.register.payment.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -50,6 +51,16 @@ public class GroupManager {
 			}
 		}
 		return null;
+	}
+
+	public void giveMoney(String group, double amount) {
+		List<Player> players = getPlayers(group);
+		if (players == null) {
+			return;
+		}
+		for (Player player:players) {
+			Methods.getMethod().getAccount(player.getName()).add(amount);
+		}
 	}
 
 	public List<Player> getPlayers(String group) {
