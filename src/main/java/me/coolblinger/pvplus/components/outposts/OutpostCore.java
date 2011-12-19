@@ -2,6 +2,7 @@ package me.coolblinger.pvplus.components.outposts;
 
 import me.coolblinger.pvplus.PvPlus;
 import me.coolblinger.pvplus.PvPlusUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -9,9 +10,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 public class OutpostCore implements Runnable {
-
-	//TODO: Teleporting to core
-
 	public boolean isCanceled = false;
 	public boolean isSucceeded = false;
 	public Location signBlockLocation;
@@ -77,12 +75,13 @@ public class OutpostCore implements Runnable {
 
 	public void capture() {
 		isSucceeded = true;
+		Bukkit.broadcastMessage(String.valueOf(isSucceeded));
 		PvPlus.gm.sendMessage(capturingGroup, ChatColor.GREEN + "[PvP] Your group has successfully captured '" + ChatColor.GOLD + outpost + ChatColor.GREEN + "'.");
 		if (!owningGroup.equals("///")) {
 			PvPlus.gm.sendMessage(owningGroup, ChatColor.RED + "[PvP] You have lost control of '" + ChatColor.GOLD + outpost + ChatColor.RED + "' to " + ChatColor.GRAY + capturingGroup + ChatColor.RED + ".");
 		}
 		PvPlus.om.setOwner(outpost, capturingGroup);
-		PvPlus.om.setCore(outpost, signBlockLocation.subtract(0, 1, 0));
+		PvPlus.om.setCore(outpost, signBlockLocation.clone().subtract(0, 1, 0));
 		remove();
 
 		//TODO: Sign does not seem to clear itself out
