@@ -23,8 +23,6 @@ public class OutpostDoor implements Runnable {
 	public String owningGroup;
 	public int stage = 10;
 
-	//TODO: Fix the doors, again
-
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
 		outpost = PvPlusUtils.getOutpost(signBlockLocation);
@@ -69,11 +67,11 @@ public class OutpostDoor implements Runnable {
 			if (signBlock.getRelative(1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(1, -1, 1).getLocation();
 			}
-			if (signBlock.getRelative(-1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
+			if (signBlock.getRelative(-1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(-1, -1, 1).getLocation();
 			}
 		} else if (signBlock.getData() == 0x3) { //Facing south
-			if (signBlock.getRelative(1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
+			if (signBlock.getRelative(1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(1, -1, -1).getLocation();
 			}
 			if (signBlock.getRelative(-1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
@@ -83,12 +81,12 @@ public class OutpostDoor implements Runnable {
 			if (signBlock.getRelative(1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(1, -1, 1).getLocation();
 			}
-			if (signBlock.getRelative(1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
+			if (signBlock.getRelative(1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(-1, -1, -1).getLocation();
 			}
 		} else if (signBlock.getData() == 0x5) { //Facing east
-			if (signBlock.getRelative(-1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
-				return signBlock.getRelative(1, -1, -1).getLocation();
+			if (signBlock.getRelative(-1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
+				return signBlock.getRelative(-1, -1, 1).getLocation();
 			}
 			if (signBlock.getRelative(-1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
 				return signBlock.getRelative(-1, -1, -1).getLocation();
