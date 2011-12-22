@@ -82,8 +82,10 @@ public class OutpostCore implements Runnable {
 		}
 		PvPlus.om.setOwner(outpost, capturingGroup);
 		PvPlus.om.setCore(outpost, signBlockLocation.clone().subtract(0, 1, 0));
+		if (Bukkit.getPluginManager().getPlugin("Register") != null) {
+			PvPlus.gm.giveMoney(capturingGroup, PvPlus.getDouble("moneyOnCapture"));
+		}
 		remove();
-		//TODO: Give money on capture
 	}
 
 	public void run() {
