@@ -56,6 +56,9 @@ public class PvPlus extends JavaPlugin {
 				om.handleMoney();
 			}
 		}, 0, getInt("tickSpeed"));
+		if (Bukkit.getPluginManager().getPlugin("Register") == null) {
+			PvPlusUtils.log.warning("PvPlus could not find Register. Economy features have been disabled.");
+		}
 		PvPlusUtils.log.info("PvPlus version " + pdf.getVersion() + " has been enabled!");
 	}
 
@@ -63,6 +66,7 @@ public class PvPlus extends JavaPlugin {
 		YamlConfiguration config = (YamlConfiguration) getConfig();
 		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
 		config.addDefault("moneyPerTick", 0); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
+		config.addDefault("moneyOnCapture", 0); //This is the amount of money you'd get when you capture an outpost
 		config.addDefault("range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
 		config.options().copyDefaults(true);
 		saveConfig();
