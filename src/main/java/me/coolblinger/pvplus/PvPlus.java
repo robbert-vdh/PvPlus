@@ -64,10 +64,11 @@ public class PvPlus extends JavaPlugin {
 
 	private void initConfig() {
 		YamlConfiguration config = (YamlConfiguration) getConfig();
-		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
-		config.addDefault("moneyPerTick", 0); //This controls the speed of things like door capturing. 20 ticks = 1 second.");
+		config.addDefault("tickSpeed", 40); //This controls the speed of things like door capturing. 20 ticks = 1 second
+		config.addDefault("moneyPerTick", 0); //This controls the speed of things like door capturing. 20 ticks = 1 second
 		config.addDefault("moneyOnCapture", 0); //This is the amount of money you'd get when you capture an outpost
-		config.addDefault("range", 5); //The maximum distance you're allowed to be from a sign while capturing.");
+		config.addDefault("range", 5); //The maximum distance you're allowed to be from a sign while capturing
+		config.addDefault("prefixChatWithGroup", true); //Whether to prefix chat with the player's group or not
 		config.options().copyDefaults(true);
 		saveConfig();
 	}
@@ -80,5 +81,10 @@ public class PvPlus extends JavaPlugin {
 	public static double getDouble(String path) {
 		YamlConfiguration config = (YamlConfiguration) Bukkit.getPluginManager().getPlugin("PvPlus").getConfig();
 		return config.getDouble(path);
+	}
+
+	public static boolean getBoolean(String path) {
+		YamlConfiguration config = (YamlConfiguration) Bukkit.getPluginManager().getPlugin("PvPlus").getConfig();
+		return config.getBoolean(path);
 	}
 }
