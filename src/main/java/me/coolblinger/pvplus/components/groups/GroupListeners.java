@@ -12,15 +12,14 @@ import org.bukkit.event.player.PlayerChatEvent;
 public class GroupListeners {
 	public static void onPlayerChat(PlayerChatEvent event) {
 		String group = PvPlus.gm.getGroup(event.getPlayer().getName());
-		if (group != null) {
+		if (group != null && PvPlus.getBoolean("prefixChatWithGroup")) {
 			event.setFormat("[" + ChatColor.GRAY + group + ChatColor.WHITE + "]" + event.getFormat());
 		}
 		if (event.getMessage().startsWith("@")) {
-			String groupName = PvPlus.gm.getGroup(event.getPlayer().getName());
 			String message = event.getMessage().substring(1);
-			if (groupName != null) {
-				PvPlus.gm.sendMessage(groupName, ChatColor.BLUE + event.getPlayer().getDisplayName() + ": " + message);
-				PvPlusUtils.log.info("@[" + groupName + "]" + event.getPlayer().getDisplayName() + ": " + message);
+			if (group != null) {
+				PvPlus.gm.sendMessage(group, ChatColor.BLUE + event.getPlayer().getDisplayName() + ": " + message);
+				PvPlusUtils.log.info("@[" + group + "]" + event.getPlayer().getDisplayName() + ": " + message);
 			} else {
 				event.getPlayer().sendMessage(ChatColor.RED + "You're not in a group.");
 			}
