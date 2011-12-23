@@ -2,7 +2,7 @@ name: PvPlus
 author: coolblinger
 version: 0.1-DEV
 main: me.coolblinger.pvplus.PvPlus
-softdepend: [Spout, register]
+softdepend: [register]
 commands:
    pvplus:
       description: Main command for PvPlus.
