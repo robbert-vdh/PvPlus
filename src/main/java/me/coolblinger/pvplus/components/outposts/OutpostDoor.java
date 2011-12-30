@@ -84,7 +84,7 @@ public class OutpostDoor implements Runnable {
 				return signBlock.getRelative(1, -1, 1).getLocation();
 			}
 			if (signBlock.getRelative(1, -1, -1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(1, -1, -1).getType() == Material.IRON_DOOR_BLOCK) {
-				return signBlock.getRelative(-1, -1, -1).getLocation();
+				return signBlock.getRelative(1, -1, -1).getLocation();
 			}
 		} else if (signBlock.getData() == 0x5) { //Facing east
 			if (signBlock.getRelative(-1, -1, 1).getType() == Material.WOODEN_DOOR || signBlock.getRelative(-1, -1, 1).getType() == Material.IRON_DOOR_BLOCK) {
@@ -102,7 +102,6 @@ public class OutpostDoor implements Runnable {
 	}
 
 	public void remove() {
-		Bukkit.broadcastMessage("removing, lol");
 		if (!isCanceled && !isSucceeded) {
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			if (!owningGroup.equals("///")) {
