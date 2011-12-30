@@ -23,6 +23,8 @@ public class OutpostDoor implements Runnable {
 	public String owningGroup;
 	public int stage = 10;
 
+	//TODO: Doors are not removing/working correctly
+
 	public OutpostDoor(Block sign, Player capturer) {
 		signBlockLocation = sign.getLocation();
 		outpost = PvPlusUtils.getOutpost(signBlockLocation);
@@ -100,6 +102,7 @@ public class OutpostDoor implements Runnable {
 	}
 
 	public void remove() {
+		Bukkit.broadcastMessage("removing, lol");
 		if (!isCanceled && !isSucceeded) {
 			PvPlus.gm.sendMessage(capturingGroup, ChatColor.RED + "[PvP] Your group has failed to breach a door in '" + ChatColor.GOLD + outpost + ChatColor.RED + "'.");
 			if (!owningGroup.equals("///")) {
@@ -185,7 +188,7 @@ public class OutpostDoor implements Runnable {
 		}
 		Block signBlock = getSignBlock();
 		if (signBlock.getState() instanceof Sign) {
-			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("doors.range")) {
+			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("range")) {
 				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the door!");
 				remove();
 				return;

@@ -95,7 +95,7 @@ public class OutpostCore implements Runnable {
 		}
 		Block signBlock = getSignBlock();
 		if (signBlock.getState() instanceof Sign) {
-			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("doors.range")) {
+			if (signBlock.getLocation().distance(capturer.getLocation()) > PvPlus.getInt("range")) {
 				capturer.sendMessage(ChatColor.RED + "You've moved out of range of the core!");
 				remove();
 				return;
