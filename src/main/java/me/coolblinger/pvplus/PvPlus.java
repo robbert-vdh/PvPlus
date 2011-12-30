@@ -32,11 +32,6 @@ public class PvPlus extends JavaPlugin {
 	public void onEnable() {
 		PluginDescriptionFile pdf = getDescription();
 		PluginManager pm = getServer().getPluginManager();
-		if (!pm.isPluginEnabled("Spout")) {
-			PvPlusUtils.log.severe("Spout could not be found, PvPlus will disable itself.");
-			setEnabled(false);
-			return;
-		}
 		getCommand("pvplus").setExecutor(new PvPlusCommand());
 		getCommand("groups").setExecutor(new GroupsCommand());
 		getCommand("outposts").setExecutor(new OutpostsCommand());
